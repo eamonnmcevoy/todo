@@ -1,6 +1,7 @@
 package com.emcevoy.beepboop.View;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 /**
  * Created by Admin on 18/06/2017.
@@ -50,6 +53,15 @@ public class SubtaskListAdapter extends ArrayAdapter<Subtask> {
 
         View v = inflater.inflate(R.layout.subtask_row_item, null);
         TextView subtaskTitle = ButterKnife.findById(v, R.id.subtask_title);
+        CheckBox subtaskCheckbox = ButterKnife.findById(v, R.id.subtask_checkbox);
+        subtaskCheckbox.setOnClickListener(v1 -> {
+            if(subtaskCheckbox.isChecked()) {
+                subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            else {
+                subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+        });
         subtaskTitle.setText(subtasks.get(position).getTitle());
         return v;
     }

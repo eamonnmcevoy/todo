@@ -1,8 +1,10 @@
 package com.emcevoy.beepboop.View;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import com.wealthfront.magellan.BaseScreenView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
@@ -46,27 +49,32 @@ public class TaskDetailView  extends BaseScreenView<TaskListScreen> {
         subtaskList.setAdapter(adapter);
         subtaskInput.setImeActionLabel("Add", KeyEvent.KEYCODE_ENTER);
         subtaskInput.setOnEditorActionListener((v, actionId, event) -> addSubtask(new Subtask(v.getText().toString())));
+        if(adapter.isEmpty()) subtaskList.setVisibility(GONE);
     }
 
     private boolean addSubtask(Subtask subtask) {
         task.addSubtask(subtask);
         adapter.notifyDataSetChanged();
+        if(subtaskList.getVisibility()==GONE) subtaskList.setVisibility(VISIBLE);
         return true;
     }
 
     @OnClick(R.id.subtasks)
     public void onClickNewSubtask() {
         newSubtaskWidget.setVisibility(VISIBLE);
+        newSubtaskWidget.requestFocus();
     }
 
     @OnClick(R.id.addSubtaskButton)
     public void onClickAddSubtaskButton() {
         addSubtask(new Subtask(subtaskInput.getText().toString()));
         newSubtaskWidget.setVisibility(GONE);
+        subtaskInput.setText("");
     }
 
     @OnClick(R.id.cancelAddSubtaskButton)
     public void onClickCancelSubtaskButton() {
         newSubtaskWidget.setVisibility(GONE);
+        subtaskInput.setText("");
     }
 }
