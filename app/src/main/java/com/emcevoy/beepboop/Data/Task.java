@@ -1,6 +1,7 @@
 package com.emcevoy.beepboop.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,11 +11,13 @@ import java.util.List;
 public class Task {
     private String title;
     private String when;
+    private Date date;
     private List<Subtask> subtasks;
 
-    public Task(String title, String when) {
+    public Task(String title, Date date) {
         this.title = title;
         this.when = when;
+        this.date = date;
         subtasks = new ArrayList<>();
     }
 
@@ -25,6 +28,12 @@ public class Task {
     public String getWhen() {
         return this.when;
     }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public void setDate(Date date) { this.date = date; }
 
     public void addSubtask(Subtask subtask) {
         subtasks.add(subtask);

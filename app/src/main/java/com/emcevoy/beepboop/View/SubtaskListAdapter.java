@@ -2,67 +2,65 @@ package com.emcevoy.beepboop.View;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.SwipeDismissBehavior;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.emcevoy.beepboop.Data.Subtask;
-import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 
-/**
- * Created by Admin on 18/06/2017.
- */
+class SubtaskListAdapter extends ArrayAdapter<Subtask> {
 
-public class SubtaskListAdapter extends ArrayAdapter<Subtask> {
+    private List<Subtask> subtasks;
+    private Context context;
 
-    List<Subtask> subtasks;
-    Context context;
-
-    public SubtaskListAdapter(Context context, List<Subtask> subtasks) {
+    SubtaskListAdapter(Context context, List<Subtask> subtasks) {
         super(context, -1, subtasks);
         this.context = context;
         this.subtasks = subtasks;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.subtask_row_item, parent, false);
+        }
+        final TextView subtaskTitle = ButterKnife.findById(convertView, R.id.subtask_title);
+        final CheckBox subtaskCheckbox = ButterKnife.findById(convertView, R.id.subtask_checkbox);
+        subtaskCheckbox.setTag(position);
 
-        View v = inflater.inflate(R.layout.subtask_row_item, null);
-        TextView subtaskTitle = ButterKnife.findById(v, R.id.subtask_title);
-        CheckBox subtaskCheckbox = ButterKnife.findById(v, R.id.subtask_checkbox);
-        subtaskCheckbox.setOnClickListener(v1 -> {
-            if(subtaskCheckbox.isChecked()) {
-                subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            else {
-                subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        subtaskCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v1) {
+                int i = (Integer) v1.getTag();
+                subtasks.get(i).setDone(subtaskCheckbox.isChecked());
+                if (subtasks.get(i).getDone()) {
+                    subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                }
             }
         });
+
         subtaskTitle.setText(subtasks.get(position).getTitle());
-        return v;
+        subtaskCheckbox.setChecked(subtasks.get(position).getDone());
+        if(subtasks.get(position).getDone()) {
+            subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        else {
+            subtaskTitle.setPaintFlags(subtaskTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+        return convertView;
     }
 }

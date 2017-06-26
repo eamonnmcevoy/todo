@@ -49,10 +49,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         public TextView title;
         private Task task;
 
-        public TaskViewHolder(View view, OnClickListener onClickListener) {
+        public TaskViewHolder(View view, final OnClickListener onClickListener) {
             super(view);
             title = ButterKnife.findById(view, R.id.task_title);
-            this.itemView.setOnClickListener(v -> onClickListener.onClick(task));
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClick(task);
+                }
+            });
         }
 
         public void setTask(Task task) {

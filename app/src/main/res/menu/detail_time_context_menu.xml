@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/time_menu_morning"
+        android:title="Morning 09:00" />
+    <item
+        android:id="@+id/time_menu_noon"
+        android:title="Noon 12:00" />
+    <item
+        android:id="@+id/time_menu_afternoon"
+        android:title="Afternoon 15:00" />
+    <item
+        android:id="@+id/time_menu_evening"
+        android:title="Evening 18:00" />
+    <item
+        android:id="@+id/time_menu_night"
+        android:title="Night 21:00" />
+    <item
+        android:id="@+id/time_menu_custom"
+        android:title="Custom" />
+
+</menu>

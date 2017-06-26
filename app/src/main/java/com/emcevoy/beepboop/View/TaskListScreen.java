@@ -1,21 +1,33 @@
 package com.emcevoy.beepboop.View;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.Data.TaskProvider;
 import com.emcevoy.beepboop.R;
+import com.wealthfront.magellan.DialogCreator;
 import com.wealthfront.magellan.Screen;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import com.joestelmach.natty.*;
 
 public class TaskListScreen extends Screen<TaskListView> {
     private TaskProvider provider = new TaskProvider();
@@ -33,24 +45,50 @@ public class TaskListScreen extends Screen<TaskListView> {
         return "Home Screen";
     }
 
-    public void addTask() {
-        showDialog(activity -> {
-            View v = getView().inflate(getActivity(), R.layout.new_task_dialog, null);
-            final TextView whatTextView = ButterKnife.findById(v, R.id.whatInput);
-            final TextView whenTextView = ButterKnife.findById(v, R.id.whenInput);
-            return new AlertDialog.Builder(getActivity()).setView(v)
-                    .setPositiveButton("Add", (dialog, id) ->
-                            provider.add(new Task(whatTextView.getText().toString(), whenTextView.getText().toString()))
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(()->refreshData()))
-                    .setNegativeButton("Cancel", (dialog, id) -> { })
-                    .create();
+    void addTask() {
+
+        showDialog(new DialogCreator() {
+            @Override
+            public Dialog createDialog(Activity activity) {
+                View v = View.inflate(TaskListScreen.this.getActivity(), R.layout.new_task_dialog, null);
+                final TextView whatTextView = ButterKnife.findById(v, R.id.whatInput);
+                final TextView whenTextView = ButterKnife.findById(v, R.id.whenInput);
+                return new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
+                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                TaskListScreen.this.addTaskClickAdd(whatTextView.getText().toString());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        })
+                        .create();
+            }
         });
     }
 
+    void addTaskClickAdd(String text) {
+        provider.createNewTask(text)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        TaskListScreen.this.refreshData();
+                    }
+                });
+    }
+
     private void createObservable() {
-        listObservable = Observable.fromCallable(() -> provider.getAll());
+        listObservable = Observable.fromCallable(new Callable<List<Task>>() {
+            @Override
+            public List<Task> call() throws Exception {
+                return provider.getAll();
+            }
+        });
         refreshData();
     }
 
@@ -58,10 +96,15 @@ public class TaskListScreen extends Screen<TaskListView> {
         listObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(tasks -> getView().setData(tasks));
+                .subscribe(new Consumer<List<Task>>() {
+                    @Override
+                    public void accept(@NonNull List<Task> tasks) throws Exception {
+                        TaskListScreen.this.getView().setData(tasks);
+                    }
+                });
     }
 
-    public void itemClicked(Task task) {
+    void itemClicked(Task task) {
         getNavigator().goTo(new TaskDetailScreen(task));
     }
 

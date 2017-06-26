@@ -27,7 +27,12 @@ public class TaskListView extends BaseScreenView<TaskListScreen> {
 
     private void configure() {
         recyclerView = ButterKnife.findById(this, R.id.task_list);
-        adapter = new TaskListAdapter(task -> getScreen().itemClicked(task));
+        adapter = new TaskListAdapter(new TaskListAdapter.OnClickListener() {
+            @Override
+            public void onClick(Task task) {
+                TaskListView.this.getScreen().itemClicked(task);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);

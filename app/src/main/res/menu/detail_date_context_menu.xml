@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/date_menu_today"
+        android:title="Today" />
+    <item
+        android:id="@+id/date_menu_tomorrow"
+        android:title="Tomorrow" />
+    <item
+        android:id="@+id/date_menu_nextweek"
+        android:title="Next week" />
+    <item
+        android:id="@+id/date_menu_anytime"
+        android:title="Anytime" />
+    <item
+        android:id="@+id/date_menu_custom"
+        android:title="Custom" />
+</menu>
