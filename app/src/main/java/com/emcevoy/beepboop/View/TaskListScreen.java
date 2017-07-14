@@ -28,6 +28,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import com.joestelmach.natty.*;
+import com.wealthfront.magellan.transitions.CircularRevealTransition;
 
 public class TaskListScreen extends Screen<TaskListView> {
     private TaskProvider provider = new TaskProvider();
@@ -51,13 +52,12 @@ public class TaskListScreen extends Screen<TaskListView> {
             @Override
             public Dialog createDialog(Activity activity) {
                 View v = View.inflate(TaskListScreen.this.getActivity(), R.layout.new_task_dialog, null);
-                final TextView whatTextView = ButterKnife.findById(v, R.id.whatInput);
-                final TextView whenTextView = ButterKnife.findById(v, R.id.whenInput);
+                final TextView newTaskTextView = ButterKnife.findById(v, R.id.newTaskInput);
                 return new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                TaskListScreen.this.addTaskClickAdd(whatTextView.getText().toString());
+                                TaskListScreen.this.addTaskClickAdd(newTaskTextView.getText().toString());
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -105,7 +105,8 @@ public class TaskListScreen extends Screen<TaskListView> {
     }
 
     void itemClicked(Task task) {
-        getNavigator().goTo(new TaskDetailScreen(task));
+        getNavigator()
+                .goTo(new TaskDetailScreen(task));
     }
 
 

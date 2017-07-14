@@ -14,6 +14,8 @@ import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 import com.wealthfront.magellan.BaseScreenView;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -47,7 +49,7 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         this.task = task;
         title.setText(task.getTitle());
         if(task.getDate() != null) {
-            dateText.setText(task.getDate().toString()  );
+            setDueDate(task.getDate());
         }
 
         adapter = new SubtaskListAdapter(getContext(), task.getSubtasks());
@@ -62,6 +64,11 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         if(adapter.isEmpty()) subtaskList.setVisibility(GONE);
 
         activity.registerForContextMenu(taskDetailDateRow);
+    }
+
+    public void setDueDate(Date date) {
+        String dateString = java.text.DateFormat.getDateInstance().format(date);
+        dateText.setText(dateString);
     }
 
     public void setOnClickTaskDetailTimeListener(OnClickTaskDetailTimeListener onClickTaskDetailTimeListener) {

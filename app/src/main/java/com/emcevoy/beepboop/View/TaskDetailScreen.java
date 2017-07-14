@@ -2,16 +2,13 @@ package com.emcevoy.beepboop.View;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
@@ -22,8 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 class TaskDetailScreen extends Screen<TaskDetailView> {
     private Task task;
@@ -39,7 +34,7 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
 
         view.setOnClickTaskDetailTimeListener(new TaskDetailView.OnClickTaskDetailTimeListener() {
             @Override
-            public void onClickTaskDetailTime(View v) {
+            public void onClickTaskDetailTime(final View v) {
                 PopupMenu popup = new PopupMenu(getActivity(), v);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -54,7 +49,7 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
                             case R.id.date_menu_anytime:
                                 return true;
                             case R.id.date_menu_custom:
-                                showDateDialog();
+                                showDateDialog(v);
                                 return true;
                             default:
                                 return false;
@@ -68,7 +63,8 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
         return view;
     }
 
-    private void showDateDialog() {
+    private void showDateDialog(final View viewToRefresh) {
+        final TaskDetailView taskDetailView = this.getView();
         showDialog(new DialogCreator() {
             @Override
             public Dialog createDialog(Activity activity) {
@@ -83,7 +79,9 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                task.setDate(getDateFromDatePicker(taskDatePicker));
+                                Date date = getDateFromDatePicker(taskDatePicker);
+                                task.setDatePart(date);
+                                taskDetailView.setDueDate(task.getDate());
                             }
                         })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -13,23 +13,7 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:minLines="2"
-            android:id="@+id/whatInput"
-            android:layout_weight="0.18"
-            android:hint="What?" />
+            android:id="@+id/newTaskInput"
+            android:layout_weight="0.18"/>
     </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:minLines="2"
-            android:id="@+id/whenInput"
-            android:layout_weight="0.18"
-            android:hint="When?" />
-    </android.support.design.widget.TextInputLayout>
-
 </LinearLayout>
