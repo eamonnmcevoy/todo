@@ -14,6 +14,7 @@ import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 import com.wealthfront.magellan.BaseScreenView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -25,6 +26,8 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
     TextView title;
     @BindView(R.id.task_detail_date)
     TextView dateText;
+    @BindView(R.id.task_detail_time)
+    TextView timeText;
     @BindView(R.id.subtask_list)
     ListView subtaskList;
     @BindView(R.id.subtask_input)
@@ -33,6 +36,8 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
     LinearLayout newSubtaskWidget;
     @BindView(R.id.task_detail_date_row)
     LinearLayout taskDetailDateRow;
+    @BindView(R.id.task_detail_time_row)
+    LinearLayout taskDetailTimeRow;
 
     OnClickTaskDetailTimeListener onClickTaskDetailTimeListener;
 
@@ -49,7 +54,7 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         this.task = task;
         title.setText(task.getTitle());
         if(task.getDate() != null) {
-            setDueDate(task.getDate());
+            updateDateTime(task.getDate());
         }
 
         adapter = new SubtaskListAdapter(getContext(), task.getSubtasks());
@@ -66,9 +71,11 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         activity.registerForContextMenu(taskDetailDateRow);
     }
 
-    public void setDueDate(Date date) {
+    public void updateDateTime(Date date) {
         String dateString = java.text.DateFormat.getDateInstance().format(date);
         dateText.setText(dateString);
+        String timeString = java.text.DateFormat.getTimeInstance().format(date);
+        timeText.setText(timeString);
     }
 
     public void setOnClickTaskDetailTimeListener(OnClickTaskDetailTimeListener onClickTaskDetailTimeListener) {
@@ -83,8 +90,13 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
     }
 
     @OnClick(R.id.task_detail_date_row)
+    public void onClickTaskDetailDate() {
+        onClickTaskDetailTimeListener.onClickTaskDetailDate(taskDetailDateRow);
+    }
+
+    @OnClick(R.id.task_detail_time_row)
     public void onClickTaskDetailTime() {
-        onClickTaskDetailTimeListener.onClickTaskDetailTime(taskDetailDateRow);
+        onClickTaskDetailTimeListener.onClickTaskDetailTime(taskDetailTimeRow);
     }
 
     @OnClick(R.id.subtasks)
@@ -110,6 +122,7 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
     }
 
     public interface OnClickTaskDetailTimeListener {
+        void onClickTaskDetailDate(View v);
         void onClickTaskDetailTime(View v);
     }
 }

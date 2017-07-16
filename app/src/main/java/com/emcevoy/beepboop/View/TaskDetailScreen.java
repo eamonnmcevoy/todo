@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
+import android.widget.TimePicker;
 
+import com.emcevoy.beepboop.Data.DateUtil;
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 import com.wealthfront.magellan.DialogCreator;
@@ -34,22 +36,25 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
 
         view.setOnClickTaskDetailTimeListener(new TaskDetailView.OnClickTaskDetailTimeListener() {
             @Override
-            public void onClickTaskDetailTime(final View v) {
+            public void onClickTaskDetailDate(final View v) {
                 PopupMenu popup = new PopupMenu(getActivity(), v);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.date_menu_today:
+                                updateDate(new Date());
                                 return true;
                             case R.id.date_menu_tomorrow:
+                                updateDate(DateUtil.addDays(new Date(),1));
                                 return true;
                             case R.id.date_menu_nextweek:
+                                updateDate(DateUtil.addDays(new Date(),7));
                                 return true;
                             case R.id.date_menu_anytime:
                                 return true;
                             case R.id.date_menu_custom:
-                                showDateDialog(v);
+                                showDateDialog();
                                 return true;
                             default:
                                 return false;
@@ -59,16 +64,49 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
                 popup.inflate(R.menu.detail_date_context_menu);
                 popup.show();
             }
+
+            @Override
+            public void onClickTaskDetailTime(final View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), v);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.time_menu_morning:
+                                updateTime(DateUtil.getMorning());
+                                return true;
+                            case R.id.time_menu_noon:
+                                updateTime(DateUtil.getNoon());
+                                return true;
+                            case R.id.time_menu_afternoon:
+                                updateTime(DateUtil.getAfternoon());
+                                return true;
+                            case R.id.time_menu_evening:
+                                updateTime(DateUtil.getEvening());
+                                return true;
+                            case R.id.time_menu_night:
+                                updateTime(DateUtil.getNight());
+                                return true;
+                            case R.id.time_menu_custom:
+                                showTimeDialog();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.inflate(R.menu.detail_time_context_menu);
+                popup.show();
+            }
         });
         return view;
     }
 
-    private void showDateDialog(final View viewToRefresh) {
-        final TaskDetailView taskDetailView = this.getView();
+    private void showDateDialog() {
         showDialog(new DialogCreator() {
             @Override
             public Dialog createDialog(Activity activity) {
-                View v = TaskDetailScreen.this.getView().inflate(TaskDetailScreen.this.getActivity(), R.layout.task_detail_time_view, null);
+                View v = View.inflate(TaskDetailScreen.this.getActivity(), R.layout.task_detail_date_view, null);
                 final DatePicker taskDatePicker = ButterKnife.findById(v, R.id.task_date_picker);
                 if(task.getDate() != null) {
                     Calendar cal=Calendar.getInstance();
@@ -80,8 +118,7 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 Date date = getDateFromDatePicker(taskDatePicker);
-                                task.setDatePart(date);
-                                taskDetailView.setDueDate(task.getDate());
+                                updateDate(date);
                             }
                         })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -93,6 +130,47 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
         });
     }
 
+    private void showTimeDialog() {
+        showDialog(new DialogCreator() {
+            @Override
+            public Dialog createDialog(Activity activity) {
+                View v = View.inflate(TaskDetailScreen.this.getActivity(), R.layout.task_detail_time_view, null);
+                final TimePicker taskTimePicker = ButterKnife.findById(v, R.id.task_time_picker);
+                if(task.getDate() != null) {
+                    Calendar cal=Calendar.getInstance();
+                    cal.setTime(task.getDate());
+                    taskTimePicker.setHour(cal.get(Calendar.HOUR_OF_DAY));
+                    taskTimePicker.setMinute(cal.get(Calendar.MINUTE));
+                }
+                return new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
+                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Date date = getTimeFromTimePicker(taskTimePicker);
+                                updateTime(date);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .create();
+            }
+        });
+    }
+
+    private void updateDate(Date date) {
+        final TaskDetailView taskDetailView = this.getView();
+        task.setDatePart(date);
+        taskDetailView.updateDateTime(task.getDate());
+    }
+
+    private void updateTime(Date date) {
+        final TaskDetailView taskDetailView = this.getView();
+        task.setTimePart(date);
+        taskDetailView.updateDateTime(task.getDate());
+    }
+
     static java.util.Date getDateFromDatePicker(DatePicker datePicker){
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
@@ -102,5 +180,11 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
         calendar.set(year, month, day);
 
         return calendar.getTime();
+    }
+
+    static java.util.Date getTimeFromTimePicker(TimePicker timePicker){
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+        return DateUtil.getTime(hour, minute);
     }
 }

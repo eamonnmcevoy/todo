@@ -3,21 +3,21 @@
 
     <item
         android:id="@+id/time_menu_morning"
-        android:title="Morning 09:00" />
+        android:title="@string/morning" />
     <item
         android:id="@+id/time_menu_noon"
-        android:title="Noon 12:00" />
+        android:title="@string/noon" />
     <item
         android:id="@+id/time_menu_afternoon"
-        android:title="Afternoon 15:00" />
+        android:title="@string/afternoon" />
     <item
         android:id="@+id/time_menu_evening"
-        android:title="Evening 18:00" />
+        android:title="@string/evening" />
     <item
         android:id="@+id/time_menu_night"
-        android:title="Night 21:00" />
+        android:title="@string/night" />
     <item
         android:id="@+id/time_menu_custom"
-        android:title="Custom" />
+        android:title="@string/custom" />
 
 </menu>
