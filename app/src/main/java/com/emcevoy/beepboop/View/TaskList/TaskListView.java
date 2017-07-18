@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskList;
 
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;

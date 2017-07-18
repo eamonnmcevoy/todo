@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

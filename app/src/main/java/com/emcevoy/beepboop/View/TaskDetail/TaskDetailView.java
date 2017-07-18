@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskDetail;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.emcevoy.beepboop.Data.Subtask;
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
+import com.emcevoy.beepboop.View.TaskList.TaskListScreen;
 import com.wealthfront.magellan.BaseScreenView;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -89,6 +89,11 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         return true;
     }
 
+    @OnClick(R.id.task_detail_title)
+    public void onTitleClick() {
+        onClickTaskDetailTimeListener.onClickTaskDetailTitle();
+    }
+
     @OnClick(R.id.task_detail_date_row)
     public void onClickTaskDetailDate() {
         onClickTaskDetailTimeListener.onClickTaskDetailDate(taskDetailDateRow);
@@ -121,8 +126,9 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         subtaskInput.setText("");
     }
 
-    public interface OnClickTaskDetailTimeListener {
+    interface OnClickTaskDetailTimeListener {
         void onClickTaskDetailDate(View v);
         void onClickTaskDetailTime(View v);
+        void onClickTaskDetailTitle();
     }
 }

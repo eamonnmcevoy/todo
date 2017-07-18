@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskDetail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,10 +22,10 @@ import java.util.Date;
 
 import butterknife.ButterKnife;
 
-class TaskDetailScreen extends Screen<TaskDetailView> {
+public class TaskDetailScreen extends Screen<TaskDetailView> {
     private Task task;
 
-    TaskDetailScreen(Task task) {
+    public TaskDetailScreen(Task task) {
         this.task = task;
     }
 
@@ -97,6 +97,15 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
                 });
                 popup.inflate(R.menu.detail_time_context_menu);
                 popup.show();
+            }
+
+            @Override
+            public void onClickTaskDetailTitle() {
+                //todo: edit task detail
+                /*
+                *   What?
+                *   When?
+                * */
             }
         });
         return view;
@@ -171,7 +180,7 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
         taskDetailView.updateDateTime(task.getDate());
     }
 
-    static java.util.Date getDateFromDatePicker(DatePicker datePicker){
+    private static java.util.Date getDateFromDatePicker(DatePicker datePicker){
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year =  datePicker.getYear();
@@ -182,7 +191,7 @@ class TaskDetailScreen extends Screen<TaskDetailView> {
         return calendar.getTime();
     }
 
-    static java.util.Date getTimeFromTimePicker(TimePicker timePicker){
+    private static java.util.Date getTimeFromTimePicker(TimePicker timePicker){
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
         return DateUtil.getTime(hour, minute);

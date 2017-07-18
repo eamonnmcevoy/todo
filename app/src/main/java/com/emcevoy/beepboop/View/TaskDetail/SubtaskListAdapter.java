@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskDetail;
 
 import android.content.Context;
 import android.graphics.Paint;

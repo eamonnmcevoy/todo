@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Header -->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,10 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:text="Title"
+            android:text="@string/title"
             android:padding="@dimen/task_title_padding"/>
     </android.support.v7.widget.CardView>
 
+    <!-- Main content -->
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

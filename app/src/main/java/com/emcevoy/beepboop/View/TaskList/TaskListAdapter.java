@@ -1,6 +1,5 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskList;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,12 +18,11 @@ import butterknife.ButterKnife;
 
 import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 
-public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskViewHolder> {
+class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskViewHolder> {
     private List<Task> taskList = new ArrayList<>();
     private OnClickListener onClickListener;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy");
 
-    public TaskListAdapter(OnClickListener onClickListener) {
+    TaskListAdapter(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
@@ -52,12 +49,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         return taskList.size();
     }
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-        public TextView dueDate;
+        TextView dueDate;
         private Task task;
 
-        public TaskViewHolder(View view, final OnClickListener onClickListener) {
+        TaskViewHolder(View view, final OnClickListener onClickListener) {
             super(view);
             title = ButterKnife.findById(view, R.id.task_title);
             dueDate = ButterKnife.findById(view, R.id.task_duedate);
@@ -69,7 +66,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
             });
         }
 
-        public void setTask(Task task) {
+        void setTask(Task task) {
             this.task = task;
             title.setText(task.getTitle());
 
@@ -81,7 +78,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
         }
     }
 
-    public interface OnClickListener {
+    interface OnClickListener {
         void onClick(Task task);
     }
 }

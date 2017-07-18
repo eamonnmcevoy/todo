@@ -1,10 +1,8 @@
 package com.emcevoy.beepboop;
 
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.View;
 
-import com.emcevoy.beepboop.View.TaskListScreen;
+import com.emcevoy.beepboop.View.TaskList.TaskListScreen;
 import com.wealthfront.magellan.Navigator;
 import com.wealthfront.magellan.support.SingleActivity;
 

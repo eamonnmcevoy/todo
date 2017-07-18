@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.View;
+package com.emcevoy.beepboop.View.TaskList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.Data.TaskProvider;
 import com.emcevoy.beepboop.R;
+import com.emcevoy.beepboop.View.TaskDetail.TaskDetailScreen;
 import com.wealthfront.magellan.DialogCreator;
 import com.wealthfront.magellan.Screen;
 
