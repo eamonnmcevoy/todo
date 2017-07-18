@@ -13,7 +13,9 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:minLines="2"
+            android:maxLines="2"
             android:id="@+id/newTaskInput"
+            android:hint="@string/new_task"
             android:layout_weight="0.18"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

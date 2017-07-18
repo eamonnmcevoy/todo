@@ -30,7 +30,7 @@ public class TaskListView extends BaseScreenView<TaskListScreen> {
         adapter = new TaskListAdapter(new TaskListAdapter.OnClickListener() {
             @Override
             public void onClick(Task task) {
-                TaskListView.this.getScreen().itemClicked(task);
+                getScreen().itemClicked(task);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

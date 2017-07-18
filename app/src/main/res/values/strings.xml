@@ -12,4 +12,5 @@
     <string name="evening">Evening 18:00</string>
     <string name="night">Night 21:00</string>
     <string name="custom">Custom</string>
+    <string name="new_task">New task</string>
 </resources>

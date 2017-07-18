@@ -35,8 +35,8 @@ public class TaskProvider {
             @Override
             public void run() throws Exception {
                 Parser parser = new Parser();
-
-                List<DateGroup> groups = parser.parse(text);
+                String newTaskText = text;
+                List<DateGroup> groups = parser.parse(newTaskText);
 
                 Date date = null;
                 for(DateGroup group:groups) {
@@ -49,9 +49,12 @@ public class TaskProvider {
                     boolean isRecurreing = group.isRecurring();
                     Date recursUntil = group.getRecursUntil();
 
-                    if(!dates.isEmpty()) date = dates.get(0);
+                    if(!dates.isEmpty()) {
+                        date = dates.get(0);
+                        newTaskText = newTaskText.replace(matchingValue, "");
+                    }
                 }
-                Task task = new Task(text, date);
+                Task task = new Task(newTaskText, date);
                 taskList.add(task);
             }
         });

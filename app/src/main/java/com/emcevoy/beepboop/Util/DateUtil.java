@@ -1,4 +1,4 @@
-package com.emcevoy.beepboop.Data;
+package com.emcevoy.beepboop.Util;
 
 import java.util.Calendar;
 import java.util.Date;

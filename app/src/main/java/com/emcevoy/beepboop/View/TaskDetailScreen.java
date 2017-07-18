@@ -11,7 +11,7 @@ import android.widget.DatePicker;
 import android.widget.PopupMenu;
 import android.widget.TimePicker;
 
-import com.emcevoy.beepboop.Data.DateUtil;
+import com.emcevoy.beepboop.Util.DateUtil;
 import com.emcevoy.beepboop.Data.Task;
 import com.emcevoy.beepboop.R;
 import com.wealthfront.magellan.DialogCreator;
