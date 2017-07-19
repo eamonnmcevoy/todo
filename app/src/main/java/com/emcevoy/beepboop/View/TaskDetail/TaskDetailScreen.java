@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TimePicker;
 
@@ -101,11 +102,7 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
 
             @Override
             public void onClickTaskDetailTitle() {
-                //todo: edit task detail
-                /*
-                *   What?
-                *   When?
-                * */
+                showTaskEditDialog();
             }
         });
         return view;
@@ -166,6 +163,51 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
                         .create();
             }
         });
+    }
+
+    private void showTaskEditDialog() {
+        showDialog(new DialogCreator() {
+            @Override
+            public Dialog createDialog(Activity activity) {
+                View v = View.inflate(TaskDetailScreen.this.getActivity(), R.layout.edit_task_dialog, null);
+                final EditText taskTitle = ButterKnife.findById(v, R.id.edit_task_title);
+                final EditText taskWhen = ButterKnife.findById(v, R.id.edit_task_when);
+
+                taskTitle.setText(task.getTitle());
+                return new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
+                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                String title = taskTitle.getText().toString();
+                                task.setTitle(title);
+                                updateTitle(title);
+
+                                String when = taskWhen.getText().toString();
+                                if(!when.isEmpty()) {
+                                    Date date = DateUtil.toDate(when);
+                                    updateDateTime(date);
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .create();
+            }
+        });
+    }
+
+    private void updateTitle(String title) {
+        final TaskDetailView taskDetailView = this.getView();
+        task.setTitle(title);
+        taskDetailView.updateTitle(task.getTitle());
+    }
+
+    private void updateDateTime(Date date) {
+        final TaskDetailView taskDetailView = this.getView();
+        task.setDateTime(date);
+        taskDetailView.updateDateTime(task.getDate());
     }
 
     private void updateDate(Date date) {

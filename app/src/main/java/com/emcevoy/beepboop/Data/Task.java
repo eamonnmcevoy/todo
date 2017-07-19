@@ -10,7 +10,7 @@ public class Task {
     private Date date;
     private List<Subtask> subtasks;
 
-    public Task(String title, Date date) {
+    Task(String title, Date date) {
         this.title = title;
         this.date = date;
         subtasks = new ArrayList<>();
@@ -18,6 +18,10 @@ public class Task {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getDate() {
@@ -48,10 +52,10 @@ public class Task {
             this.date = date;
             return;
         }
-        Calendar newCal = Calendar.getInstance(); // locale-specific
+        Calendar newCal = Calendar.getInstance();
         newCal.setTime(date);
 
-        Calendar cal = Calendar.getInstance(); // locale-specific
+        Calendar cal = Calendar.getInstance();
         cal.setTime(this.date);
         cal.set(Calendar.HOUR_OF_DAY, newCal.get(Calendar.HOUR_OF_DAY));
         cal.set(Calendar.MINUTE, newCal.get(Calendar.MINUTE));

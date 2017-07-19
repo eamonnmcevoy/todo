@@ -14,4 +14,6 @@
     <string name="custom">Custom</string>
     <string name="new_task">New task</string>
     <string name="title">Title</string>
+    <string name="edit_text">Edit</string>
+    <string name="new_time">Quick time</string>
 </resources>

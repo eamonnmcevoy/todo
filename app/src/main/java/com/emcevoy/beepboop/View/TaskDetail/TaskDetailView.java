@@ -78,6 +78,10 @@ public class TaskDetailView extends BaseScreenView<TaskListScreen> {
         timeText.setText(timeString);
     }
 
+    public void updateTitle(String title) {
+        this.title.setText(title);
+    }
+
     public void setOnClickTaskDetailTimeListener(OnClickTaskDetailTimeListener onClickTaskDetailTimeListener) {
         this.onClickTaskDetailTimeListener = onClickTaskDetailTimeListener;
     }

@@ -1,7 +1,11 @@
 package com.emcevoy.beepboop.Util;
 
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateUtil {
     public static Date addDays(Date date, int days) {
@@ -38,5 +42,18 @@ public class DateUtil {
         cal.set(Calendar.MINUTE, minute);
         cal.set(Calendar.SECOND, 0);
         return cal.getTime();
+    }
+
+    public static Date toDate(String text) {
+        Parser parser = new Parser();
+        List<DateGroup> groups = parser.parse(text);
+        Date date = null;
+        for(DateGroup group:groups) {
+            List<Date> dates = group.getDates();
+            if(!dates.isEmpty()) {
+                date = dates.get(0);
+            }
+        }
+        return date;
     }
 }
