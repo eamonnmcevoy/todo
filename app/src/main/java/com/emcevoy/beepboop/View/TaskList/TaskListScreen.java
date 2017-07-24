@@ -67,19 +67,22 @@ public class TaskListScreen extends Screen<TaskListView> {
                         }
                     }
                 });
-                return new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
+                AlertDialog dialog = new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 TaskListScreen.this.addTaskClickAdd(newTaskTextView.getText().toString());
+                                dialog.dismiss();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
                             }
                         })
                         .create();
+                return dialog;
             }
         });
     }

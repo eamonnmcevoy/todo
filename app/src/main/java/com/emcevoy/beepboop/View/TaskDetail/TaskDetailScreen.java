@@ -119,19 +119,22 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
                     cal.setTime(task.getDate());
                     taskDatePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 }
-                return new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
+                AlertDialog dialog = new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 Date date = getDateFromDatePicker(taskDatePicker);
                                 updateDate(date);
+                                dialog.dismiss();
                             }
                         })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {}
-                    })
-                    .create();
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+                return dialog;
             }
         });
     }
@@ -185,7 +188,9 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
                                 String when = taskWhen.getText().toString();
                                 if(!when.isEmpty()) {
                                     Date date = DateUtil.toDate(when);
-                                    updateDateTime(date);
+                                    if(date != null) {
+                                        updateDateTime(date);
+                                    }
                                 }
                             }
                         })
