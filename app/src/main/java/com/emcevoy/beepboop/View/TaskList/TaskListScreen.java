@@ -67,7 +67,7 @@ public class TaskListScreen extends Screen<TaskListView> {
                         }
                     }
                 });
-                AlertDialog dialog = new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
+                return new AlertDialog.Builder(TaskListScreen.this.getActivity()).setView(v)
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -82,7 +82,6 @@ public class TaskListScreen extends Screen<TaskListView> {
                             }
                         })
                         .create();
-                return dialog;
             }
         });
     }

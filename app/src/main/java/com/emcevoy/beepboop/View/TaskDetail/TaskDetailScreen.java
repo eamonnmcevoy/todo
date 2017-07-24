@@ -119,7 +119,7 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
                     cal.setTime(task.getDate());
                     taskDatePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 }
-                AlertDialog dialog = new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
+                return new AlertDialog.Builder(TaskDetailScreen.this.getActivity()).setView(v)
                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -134,7 +134,6 @@ public class TaskDetailScreen extends Screen<TaskDetailView> {
                             dialog.dismiss();
                         }
                     }).create();
-                return dialog;
             }
         });
     }
