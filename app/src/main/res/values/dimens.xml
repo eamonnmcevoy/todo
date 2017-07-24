@@ -9,5 +9,5 @@
 
     <dimen name="task_title_padding">10dp</dimen>
     <dimen name="task_title">15sp</dimen>
-    <dimen name="task_card_height">75dp</dimen>
+    <dimen name="task_card_height">50dp</dimen>
 </resources>
